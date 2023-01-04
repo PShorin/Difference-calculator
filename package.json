@@ -1,0 +1,26 @@
+{
+  "name": "@hexlet/code",
+  "version": "1.0.0",
+  "description": "<h2 align=\"center\">Welcome to the Difference Calculator!</h2>",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "code": "bin/gendiff.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PShorin/frontend-project-46.git"
+  },
+  "author": "Pavel Shorin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PShorin/frontend-project-46/issues"
+  },
+  "homepage": "https://github.com/PShorin/frontend-project-46#readme",
+  "dependencies": {
+    "commander": "^9.4.1"
+  }
+}
