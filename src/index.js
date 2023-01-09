@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import { file1JSON, file2JSON } from '../__fixtures__/example.js';
 
 const makeObject = (name, value, type, oldValue = '') => ({
   name,
@@ -8,7 +7,8 @@ const makeObject = (name, value, type, oldValue = '') => ({
   oldValue,
 });
 
-const buildTree = (file1, file2) => {
+export const buildTree = (files) => {
+  const [file1, file2] = files;
   const keys1 = Object.keys(file1);
   const keys2 = Object.keys(file2);
   const keysTogether = _.union(keys1, keys2);
@@ -23,7 +23,7 @@ const buildTree = (file1, file2) => {
     } else {
       return makeObject(key, file2[key], 'unchanged');
     }
-  })
+  });
   return objects;
 };
 
@@ -33,17 +33,13 @@ const symbols = {
   unchanged: ' ',
 };
 
-const renderDifference = (tree) => {
+export const renderDifference = (tree) => {
   const gendiff = tree.map((element) => {
     const { name, value, type, oldValue } = element;
     if (type === 'updated') {
       return `  - ${name}: ${value}\n  + ${name}: ${oldValue}`;
     }
     return `  ${symbols[type]} ${name}: ${value}`;
-  })
+  });
   return `{\n${gendiff.join('\n')}\n}`;
-}
-
-const tree = buildTree(file1JSON, file2JSON);
-console.log(renderDifference(tree));
-
+};
