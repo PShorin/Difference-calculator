@@ -3,10 +3,8 @@
   "version": "1.0.0",
   "description": "<h2 align=\"center\">Welcome to the Difference Calculator!</h2>",
   "type": "module",
-  "main": "index.js",
-  "bin": {
-    "code": "bin/gendiff.js"
-  },
+  "main": "bin/gendiff.js",
+  "bin": "bin/gendiff.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,6 +19,7 @@
   },
   "homepage": "https://github.com/PShorin/frontend-project-46#readme",
   "dependencies": {
-    "commander": "^9.4.1"
+    "commander": "^9.4.1",
+    "lodash": "^4.17.21"
   }
 }
