@@ -16,13 +16,14 @@ export const buildTree = (files) => {
   const objects = sortedKeys.map((key) => {
     if (!Object.hasOwn(file1, key)) {
       return makeObject(key, file2[key], 'added');
-    } else if (!Object.hasOwn(file2, key)) {
-      return makeObject(key, file1[key], 'removed');
-    } else if (file1[key] !== file2[key]) {
-      return makeObject(key, file2[key], 'updated', file1[key]);
-    } else {
-      return makeObject(key, file2[key], 'unchanged');
     }
+    if (!Object.hasOwn(file2, key)) {
+      return makeObject(key, file1[key], 'removed');
+    }
+    if (file1[key] !== file2[key]) {
+      return makeObject(key, file2[key], 'updated', file1[key]);
+    }
+    return makeObject(key, file2[key], 'unchanged');
   });
   return objects;
 };
@@ -35,9 +36,11 @@ const symbols = {
 
 export const renderDifference = (tree) => {
   const gendiff = tree.map((element) => {
-    const { name, value, type, oldValue } = element;
+    const {
+      name, value, type, oldValue,
+    } = element;
     if (type === 'updated') {
-      return `  - ${name}: ${value}\n  + ${name}: ${oldValue}`;
+      return `  - ${name}: ${oldValue}\n  + ${name}: ${value}`;
     }
     return `  ${symbols[type]} ${name}: ${value}`;
   });
