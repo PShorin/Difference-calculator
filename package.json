@@ -4,7 +4,9 @@
   "description": "<h2 align=\"center\">Welcome to the Difference Calculator!</h2>",
   "type": "module",
   "main": "bin/gendiff.js",
-  "bin": "bin/gendiff.js",
+  "bin": {
+    "gendiff": "bin/gendiff.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
