@@ -3,10 +3,12 @@ A difference calculator is a program that determines the difference between two 
 
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/PShorin/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/PShorin/frontend-project-46/actions)
+[![Maintainability](https://api.codeclimate.com/v1/badges/dcdeac6a1d337ee0c25a/maintainability)](https://codeclimate.com/github/PShorin/frontend-project-46/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/dcdeac6a1d337ee0c25a/test_coverage)](https://codeclimate.com/github/PShorin/frontend-project-46/test_coverage)
 
 ### How to install
   1. Clone repository SSH: git@github.com:PShorin/frontend-project-46.git
   2. Use the command 'make install'
 
-  ### Gendiff launch example with JSON:
+### Gendiff launch example with JSON:
 <a href="https://asciinema.org/a/emBhQqhRV5g1Lkog2jVqlvRcq" target="_blank"><img src="https://asciinema.org/a/emBhQqhRV5g1Lkog2jVqlvRcq.svg" /></a>

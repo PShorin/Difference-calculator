@@ -8,7 +8,7 @@ import { buildTree, renderDifference } from './index.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const getFixturesPath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
+export const getFixturesPath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
 export default (filepath1, filepath2) => {
   const paths = [filepath1, filepath2];
