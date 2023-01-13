@@ -1,12 +1,13 @@
 name: Node CI
 on:
   - push
+  - pull_request
 
 env:
   CI: true
 
 jobs:
-  tests:
+  build:
 
     runs-on: ubuntu-latest
 
@@ -26,10 +27,7 @@ jobs:
       - run: make test
       
       - name: Test & publish code coverage
-      # Publish code coverage on Code Climate
-      # https://github.com/paambaati/codeclimate-action
       uses: paambaati/codeclimate-action@v3.0.0
-      # Add Code Climate secret key
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
       with:
