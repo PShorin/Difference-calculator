@@ -11,5 +11,5 @@ A difference calculator is a program that determines the difference between two 
   1. Clone repository SSH: git@github.com:PShorin/frontend-project-46.git
   2. Use the command 'make install'
 
-### Gendiff launch example with JSON:
-<a href="https://asciinema.org/a/emBhQqhRV5g1Lkog2jVqlvRcq" target="_blank"><img src="https://asciinema.org/a/emBhQqhRV5g1Lkog2jVqlvRcq.svg" /></a>
+### Gendiff launch example with JSON and YAML files:
+[![asciicast](https://asciinema.org/a/dfBJsHoi9bOGVtRJG53a90aHS.svg)](https://asciinema.org/a/dfBJsHoi9bOGVtRJG53a90aHS)
