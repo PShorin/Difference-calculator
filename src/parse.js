@@ -9,12 +9,12 @@ const fileFormat = (file) => {
 
 // The parser function is selected depending on the file extension
 export default (file) => {
-  const format = fileFormat(file);
+  const format = fileFormat(file).slice(1);
   const fileContent = fs.readFileSync(file, 'utf8');
-  if (format === '.json') {
+  if (format === 'json') {
     return JSON.parse(fileContent);
   }
-  if (format === '.yaml' || format === '.yml') {
+  if (format === 'yaml' || format === 'yml') {
     return yaml.load(fileContent);
   }
   throw new Error('Wrong format');

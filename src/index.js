@@ -1,31 +1,33 @@
 import _ from 'lodash';
 
-const makeObject = (name, value, type, oldValue = '') => ({
+const makeObject = (name, value, type, children = '', oldValue = '') => ({
   name,
   value,
   type,
+  children,
   oldValue,
 });
 
-export const buildTree = (files) => {
-  const [file1, file2] = files;
+export const buildTree = (file1, file2) => {
   const keys1 = Object.keys(file1);
   const keys2 = Object.keys(file2);
-  const keysTogether = _.union(keys1, keys2);
-  const sortedKeys = _.sortBy(keysTogether);
-  const objects = sortedKeys.map((key) => {
+  const keys = _.sortBy(_.union(keys1, keys2));
+
+  return keys.map((key) => {
     if (!Object.hasOwn(file1, key)) {
       return makeObject(key, file2[key], 'added');
     }
     if (!Object.hasOwn(file2, key)) {
       return makeObject(key, file1[key], 'removed');
     }
+    if (_.isPlainObject(file1[key]) || _.isPlainObject(file2[key])) {
+      return makeObject(key, '', 'nested', buildTree(file1[key], file2[key]));
+    }
     if (file1[key] !== file2[key]) {
-      return makeObject(key, file2[key], 'updated', file1[key]);
+      return makeObject(key, file2[key], 'updated', '', file1[key]);
     }
     return makeObject(key, file2[key], 'unchanged');
   });
-  return objects;
 };
 
 const symbols = {
