@@ -1,50 +1,22 @@
-import _ from 'lodash';
+import path from 'node:path';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import { buildTree } from './make-tree.js'; // renderDifference
+import parseFile from './parse.js';
+import formatTree from './formatters/choose-Format.js';
 
-const makeObject = (name, value, type, children = '', oldValue = '') => ({
-  name,
-  value,
-  type,
-  children,
-  oldValue,
-});
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-export const buildTree = (file1, file2) => {
-  const keys1 = Object.keys(file1);
-  const keys2 = Object.keys(file2);
-  const keys = _.sortBy(_.union(keys1, keys2));
+export const getFixturesPath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
-  return keys.map((key) => {
-    if (!Object.hasOwn(file1, key)) {
-      return makeObject(key, file2[key], 'added');
-    }
-    if (!Object.hasOwn(file2, key)) {
-      return makeObject(key, file1[key], 'removed');
-    }
-    if (_.isPlainObject(file1[key]) || _.isPlainObject(file2[key])) {
-      return makeObject(key, '', 'nested', buildTree(file1[key], file2[key]));
-    }
-    if (file1[key] !== file2[key]) {
-      return makeObject(key, file2[key], 'updated', '', file1[key]);
-    }
-    return makeObject(key, file2[key], 'unchanged');
-  });
+const dataInFile = (filepath) => {
+  const fullPath = getFixturesPath(filepath);
+  const content = parseFile(fullPath);
+  return content;
 };
 
-const symbols = {
-  removed: '-',
-  added: '+',
-  unchanged: ' ',
-};
-
-export const renderDifference = (tree) => {
-  const gendiff = tree.map((element) => {
-    const {
-      name, value, type, oldValue,
-    } = element;
-    if (type === 'updated') {
-      return `  - ${name}: ${oldValue}\n  + ${name}: ${value}`;
-    }
-    return `  ${symbols[type]} ${name}: ${value}`;
-  });
-  return `{\n${gendiff.join('\n')}\n}`;
+export default (filepath1, filepath2, formatName = 'stylish') => {
+  const tree = buildTree(dataInFile(filepath1), dataInFile(filepath2));
+  return formatTree(tree, formatName);
 };

@@ -9,6 +9,8 @@ parserOptions:
   sourceType: module
 rules:
   no-console: 0
+  import/prefer-default-export: 0
+  no-case-declarations: 0
   no-underscore-dangle: [2, { "allow": ["__filename", "__dirname"] }]
   import/extensions:
     - error
