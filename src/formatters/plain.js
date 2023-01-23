@@ -25,6 +25,6 @@ export default (nodes) => {
         return [];
     }
   };
-  const result = nodes.map((node) => iter(node));
+  const result = nodes.flatMap((node) => iter(node));
   return `${result.join('\n')}`;
 };
