@@ -1,6 +1,15 @@
+import path from 'node:path';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { expect, test, beforeAll } from '@jest/globals';
 import fs from 'fs';
-import gendiff, { getFixturesPath } from '../src/index.js';
+import gendiff from '../src/index.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const getFixturesPath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
+const readFixture = (filepath) => fs.readFileSync(getFixturesPath(filepath), 'utf-8').trim();
 
 let resultFlat;
 let resultNested;
@@ -8,10 +17,10 @@ let resultPlain;
 let resultJSON;
 
 beforeAll(() => {
-  resultFlat = fs.readFileSync(getFixturesPath('resultFlat.txt'), 'utf8');
-  resultNested = fs.readFileSync(getFixturesPath('resultNested.txt'), 'utf8');
-  resultPlain = fs.readFileSync(getFixturesPath('resultPlain.txt'), 'utf8');
-  resultJSON = fs.readFileSync(getFixturesPath('resultJSON.txt'), 'utf8');
+  resultFlat = readFixture('resultFlat.txt');
+  resultNested = readFixture('resultNested.txt');
+  resultPlain = readFixture('resultPlain.txt');
+  resultJSON = readFixture('resultJSON.txt');
 });
 
 test('Stylish, Flat YML and JSON files comparison', () => {
