@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "<h2 align=\"center\">Welcome to the Difference Calculator!</h2>",
   "type": "module",
-  "main": "bin/gendiff.js",
+  "main": "src/index.js",
   "bin": {
     "gendiff": "bin/gendiff.js"
   },

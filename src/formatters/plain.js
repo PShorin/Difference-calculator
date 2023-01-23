@@ -21,9 +21,8 @@ export default (nodes) => {
         return `Property '${parent}${name}' was added with value: ${makeString(value)}`;
       case 'updated':
         return `Property '${parent}${name}' was updated. From ${makeString(oldValue)} to ${makeString(value)}`;
-      case 'unchanged':
+      default:
         return [];
-      default: throw new Error(`Unknown type: ${type}`);
     }
   };
   const result = nodes.map((node) => iter(node));

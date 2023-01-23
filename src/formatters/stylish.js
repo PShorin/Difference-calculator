@@ -30,10 +30,8 @@ const stylish = (nodes, depth) => nodes.map((node) => {
       const lineRemoved = `${getIndent(depth)}- ${node.name}: ${stringify(node.oldValue, depth)}`;
       const lineAdded = `${getIndent(depth)}+ ${node.name}: ${stringify(node.value, depth)}`;
       return `${lineRemoved}\n${lineAdded}`;
-    case 'unchanged':
+    default: // case: 'unchanged'
       return `${getIndent(depth)}  ${node.name}: ${stringify(node.value, depth)}`;
-    default:
-      throw new Error(`Unknown type: ${node.type}`);
   }
 });
 
