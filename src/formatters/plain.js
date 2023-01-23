@@ -21,7 +21,7 @@ export default (nodes) => {
         return `Property '${parent}${name}' was added with value: ${makeString(value)}`;
       case 'updated':
         return `Property '${parent}${name}' was updated. From ${makeString(oldValue)} to ${makeString(value)}`;
-      default:
+      default: // case: 'unchanged'
         return [];
     }
   };
