@@ -8,7 +8,7 @@ const makeObject = (name, value, type, children = '', oldValue = '') => ({
   oldValue,
 });
 
-export const buildTree = (file1, file2) => {
+const buildTree = (file1, file2) => {
   const keys1 = Object.keys(file1);
   const keys2 = Object.keys(file2);
   const keys = _.sortBy(_.union(keys1, keys2));
@@ -29,3 +29,5 @@ export const buildTree = (file1, file2) => {
     return makeObject(key, file2[key], 'unchanged');
   });
 };
+
+export default buildTree;

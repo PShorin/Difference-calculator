@@ -19,17 +19,17 @@ const stringify = (data, depth) => {
 const stylish = (nodes, depth) => nodes.map((node) => {
   switch (node.type) {
     case 'nested':
-      const depthStep = 1;
+    { const depthStep = 1;
       const lines = stylish(node.children, depth + depthStep);
-      return `${getIndent(depth)}  ${node.name}: {\n${lines.join('\n')}\n${getIndent(depth)}  }`;
+      return `${getIndent(depth)}  ${node.name}: {\n${lines.join('\n')}\n${getIndent(depth)}  }`; }
     case 'added':
       return `${getIndent(depth)}+ ${node.name}: ${stringify(node.value, depth)}`;
     case 'removed':
       return `${getIndent(depth)}- ${node.name}: ${stringify(node.value, depth)}`;
     case 'updated':
-      const lineRemoved = `${getIndent(depth)}- ${node.name}: ${stringify(node.oldValue, depth)}`;
+    { const lineRemoved = `${getIndent(depth)}- ${node.name}: ${stringify(node.oldValue, depth)}`;
       const lineAdded = `${getIndent(depth)}+ ${node.name}: ${stringify(node.value, depth)}`;
-      return `${lineRemoved}\n${lineAdded}`;
+      return `${lineRemoved}\n${lineAdded}`; }
     default: // case: 'unchanged'
       return `${getIndent(depth)}  ${node.name}: ${stringify(node.value, depth)}`;
   }

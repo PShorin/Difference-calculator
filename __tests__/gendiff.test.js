@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { expect, test, beforeAll } from '@jest/globals';
+import { expect, test } from '@jest/globals';
 import fs from 'fs';
 import gendiff from '../src/index.js';
 
@@ -11,22 +11,15 @@ const __dirname = dirname(__filename);
 const getFixturesPath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 const readFixture = (filepath) => fs.readFileSync(getFixturesPath(filepath), 'utf-8').trim();
 
-let resultFlat;
-let resultNested;
-let resultPlain;
-let resultJSON;
+const resultFlat = readFixture('resultFlat.txt');
+const resultNested = readFixture('resultNested.txt');
+const resultPlain = readFixture('resultPlain.txt');
+const resultJSON = readFixture('resultJSON.txt');
 
 const file1nestedJSON = getFixturesPath('file1nested.json');
 const file2nestedJSON = getFixturesPath('file2nested.json');
 const file1nestedYML = getFixturesPath('file1nested.yml');
 const file2nestedYML = getFixturesPath('file2nested.yml');
-
-beforeAll(() => {
-  resultFlat = readFixture('resultFlat.txt');
-  resultNested = readFixture('resultNested.txt');
-  resultPlain = readFixture('resultPlain.txt');
-  resultJSON = readFixture('resultJSON.txt');
-});
 
 test('1. Stylish, Flat YML and JSON files comparison', () => {
   const file1JSON = getFixturesPath('file1.json');
