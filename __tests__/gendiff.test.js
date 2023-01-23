@@ -41,3 +41,8 @@ test('JSON, Nested YML and JSON files comparison', () => {
   expect(gendiff('file1nested.yml', 'file2nested.json', 'json')).toEqual(resultJSON);
   expect(gendiff('file1nested.json', 'file2nested.yml', 'json')).toEqual(resultJSON);
 });
+
+// test('Test Errors', () => {
+// expect(gendiff('resultFlat.txt', 'resultNested.txt', 'json')).toThrow(TypeError);
+// expect(gendiff('resultFlat.txt', 'file2.txt', 'json')).toThrow('Extension txt is not supported');
+// });

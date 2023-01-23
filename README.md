@@ -1,10 +1,13 @@
+<h2 align="center">
 [![Actions Status](https://github.com/PShorin/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/PShorin/frontend-project-46/actions)
 [![Maintainability](https://api.codeclimate.com/v1/badges/dcdeac6a1d337ee0c25a/maintainability)](https://codeclimate.com/github/PShorin/frontend-project-46/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/dcdeac6a1d337ee0c25a/test_coverage)](https://codeclimate.com/github/PShorin/frontend-project-46/test_coverage)
 [![.github/workflows/nodejs.yml](https://github.com/PShorin/frontend-project-46/actions/workflows/nodejs.yml/badge.svg)](https://github.com/PShorin/frontend-project-46/actions/workflows/nodejs.yml)
+</h2>
 
 <h2 align="center">Welcome to the Difference Calculator!</h2> 
 A difference calculator is a program that determines the difference between two data structures. A similiar mechanism is used when outputting tests or when automatically tracking changes in configuration files.
+
 The project was made using a special library commander.js, which simplifies the creation of command line utilities (cli).
 
 Utility features:
@@ -39,9 +42,10 @@ gendiff filepath1.json filepath2.json
 
 ```
 
-In the stylelish format: The absence of a plus or minus indicates that the key is in both files, and its values are the same. In all other situations, the key value is either different, or the key is in only one file. In the example above, the timeout key is in both files, but has different values, proxy is only in file1, and verbose is only in file2.
+In the stylelish format: 
+The absence of a plus or minus indicates that the key is in both files, and its values are the same. In all other situations, the key value is either different, or the key is in only one file. In the example above, the timeout key is in both files, but has different values, proxy is only in file1, and verbose is only in file2.
 
-###### System requirements:
+### System requirements:
 Node 14.x version at least
 ### How to install
 ```bash
