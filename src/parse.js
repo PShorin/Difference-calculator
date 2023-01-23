@@ -7,15 +7,16 @@ const fileFormat = (file) => {
   return format;
 };
 
-// The parser function is selected depending on the file extension
 export default (file) => {
   const format = fileFormat(file).slice(1);
   const fileContent = fs.readFileSync(file, 'utf8');
-  if (format === 'json') {
-    return JSON.parse(fileContent);
+  switch (format) {
+    case 'json':
+      return JSON.parse(fileContent);
+    case 'yml':
+    case 'yaml':
+      return yaml.load(fileContent);
+    default:
+      throw new Error(`Extension ${format} is not supported`);
   }
-  if (format === 'yaml' || format === 'yml') {
-    return yaml.load(fileContent);
-  }
-  throw new Error('Wrong format');
 };
