@@ -15,38 +15,56 @@ const readFixture = (filepath) => fs.readFileSync(getFixturesPath(filepath), 'ut
 const resultNested = readFixture('resultNested.txt');
 const resultPlain = readFixture('resultPlain.txt');
 const resultJSON = readFixture('resultJSON.txt');
-const file1nestedJSON = getFixturesPath('file1nested.json');
-const file2nestedJSON = getFixturesPath('file2nested.json');
-const file1nestedYML = getFixturesPath('file1nested.yml');
-const file2nestedYML = getFixturesPath('file2nested.yml');
+const file1json = getFixturesPath('file1nested.json');
+const file2json = getFixturesPath('file2nested.json');
+const file1yml = getFixturesPath('file1nested.yml');
+const file2yml = getFixturesPath('file2nested.yml');
 
 test.each([
-  { a: file1nestedJSON, b: file2nestedJSON, expected: resultNested }, // case format not specified
-  { a: file1nestedYML, b: file2nestedYML, f: 'stylish', expected: resultNested },
-  { a: file1nestedYML, b: file2nestedJSON, f: 'stylish', expected: resultNested },
-  { a: file1nestedJSON, b: file2nestedJSON, f: 'plain', expected: resultPlain },
-  { a: file1nestedYML, b: file2nestedYML, f: 'plain', expected: resultPlain },
-  { a: file1nestedYML, b: file2nestedJSON, f: 'plain', expected: resultPlain },
-  { a: file1nestedJSON, b: file2nestedJSON, f: 'json', expected: resultJSON },
-  { a: file1nestedYML, b: file2nestedYML, f: 'json', expected: resultJSON },
-  { a: file1nestedYML, b: file2nestedJSON, f: 'json', expected: resultJSON },
-])('Format $f', ({ a, b, f, expected }) => {
+  { a: file1json, b: file2json, expected: resultNested }, // case format not specified
+  {
+    a: file1yml, b: file2yml, f: 'stylish', expected: resultNested,
+  },
+  {
+    a: file1yml, b: file2json, f: 'stylish', expected: resultNested,
+  },
+  {
+    a: file1json, b: file2json, f: 'plain', expected: resultPlain,
+  },
+  {
+    a: file1yml, b: file2yml, f: 'plain', expected: resultPlain,
+  },
+  {
+    a: file1yml, b: file2json, f: 'plain', expected: resultPlain,
+  },
+  {
+    a: file1json, b: file2json, f: 'json', expected: resultJSON,
+  },
+  {
+    a: file1yml, b: file2yml, f: 'json', expected: resultJSON,
+  },
+  {
+    a: file1yml, b: file2json, f: 'json', expected: resultJSON,
+  },
+])('Format $f', ({
+  a, b, f, expected,
+}) => {
   expect(gendiff(a, b, f)).toBe(expected);
 });
 
-test('Test Error (Wrong extension)', () => {
+test('Wrong extension', () => {
   const file1TXT = getFixturesPath('resultFlat.txt');
   const file2TXT = getFixturesPath('resultNested.txt');
   expect(() => { gendiff(file1TXT, file2TXT, 'json'); }).toThrow('Extension txt is not supported');
 });
 
-test('Test Error (Wrong formatter)', () => {
-  expect(() => { gendiff(file1nestedJSON, file2nestedJSON, 'jso'); }).toThrow('Format jso is not supported');
+test('Wrong formatter', () => {
+  expect(() => { gendiff(file1json, file2json, 'jso'); }).toThrow('Format jso is not supported');
 });
 
 const testNode = [{ type: 'newType' }];
 
-test('Test Error (Wrong type in formatters)', () => {
+test('Wrong type in formatters', () => {
   expect(() => { makePlain(testNode); }).toThrow('Type newType is not supported');
   expect(() => { makeStylish(testNode); }).toThrow('Type newType is not supported');
 });
