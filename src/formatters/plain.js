@@ -21,8 +21,10 @@ export default (nodes) => {
         return `Property '${parent}${name}' was added with value: ${makeString(value)}`;
       case 'updated':
         return `Property '${parent}${name}' was updated. From ${makeString(oldValue)} to ${makeString(value)}`;
-      default: // case: 'unchanged'
+      case 'unchanged':
         return [];
+      default:
+        throw new Error(`Type ${type} is not supported`);
     }
   };
   const result = nodes.flatMap((node) => iter(node));

@@ -1,13 +1,5 @@
 import _ from 'lodash';
 
-const makeObject = (name, value, type, children = '', oldValue = '') => ({
-  name,
-  value,
-  type,
-  children,
-  oldValue,
-});
-
 const buildTree = (file1, file2) => {
   const keys1 = Object.keys(file1);
   const keys2 = Object.keys(file2);
@@ -15,18 +7,18 @@ const buildTree = (file1, file2) => {
 
   return keys.map((key) => {
     if (_.isPlainObject(file1[key]) && _.isPlainObject(file2[key])) {
-      return makeObject(key, '', 'nested', buildTree(file1[key], file2[key]));
+      return { type: 'nested', name: key, children: buildTree(file1[key], file2[key]) };
     }
     if (!Object.hasOwn(file1, key)) {
-      return makeObject(key, file2[key], 'added');
+      return { type: 'added', name: key, value: file2[key] };
     }
     if (!Object.hasOwn(file2, key)) {
-      return makeObject(key, file1[key], 'removed');
+      return { type: 'removed', name: key, value: file1[key] };
     }
     if (file1[key] !== file2[key]) {
-      return makeObject(key, file2[key], 'updated', '', file1[key]);
+      return { type: 'updated', name: key, value: file2[key], oldValue: file1[key] };
     }
-    return makeObject(key, file2[key], 'unchanged');
+    return { type: 'unchanged', name: key, value: file2[key] };
   });
 };
 

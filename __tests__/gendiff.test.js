@@ -4,62 +4,49 @@ import { fileURLToPath } from 'url';
 import { expect, test } from '@jest/globals';
 import fs from 'fs';
 import gendiff from '../src/index.js';
+import makeStylish from '../src/formatters/stylish.js';
+import makePlain from '../src/formatters/plain.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
 const getFixturesPath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 const readFixture = (filepath) => fs.readFileSync(getFixturesPath(filepath), 'utf-8').trim();
 
-const resultFlat = readFixture('resultFlat.txt');
 const resultNested = readFixture('resultNested.txt');
 const resultPlain = readFixture('resultPlain.txt');
 const resultJSON = readFixture('resultJSON.txt');
-
 const file1nestedJSON = getFixturesPath('file1nested.json');
 const file2nestedJSON = getFixturesPath('file2nested.json');
 const file1nestedYML = getFixturesPath('file1nested.yml');
 const file2nestedYML = getFixturesPath('file2nested.yml');
 
-test('1. Stylish, Flat YML and JSON files comparison', () => {
-  const file1JSON = getFixturesPath('file1.json');
-  const file2JSON = getFixturesPath('file2.json');
-  const file1YML = getFixturesPath('file1.yml');
-  const file2YML = getFixturesPath('file2.yml');
-
-  expect(gendiff(file1JSON, file2JSON)).toEqual(resultFlat);
-  expect(gendiff(file1YML, file2YML)).toEqual(resultFlat);
-  expect(gendiff(file1YML, file2JSON)).toEqual(resultFlat);
-  expect(gendiff(file1JSON, file2YML)).toEqual(resultFlat);
+test.each([
+  { a: file1nestedJSON, b: file2nestedJSON, expected: resultNested }, // case format not specified
+  { a: file1nestedYML, b: file2nestedYML, f: 'stylish', expected: resultNested },
+  { a: file1nestedYML, b: file2nestedJSON, f: 'stylish', expected: resultNested },
+  { a: file1nestedJSON, b: file2nestedJSON, f: 'plain', expected: resultPlain },
+  { a: file1nestedYML, b: file2nestedYML, f: 'plain', expected: resultPlain },
+  { a: file1nestedYML, b: file2nestedJSON, f: 'plain', expected: resultPlain },
+  { a: file1nestedJSON, b: file2nestedJSON, f: 'json', expected: resultJSON },
+  { a: file1nestedYML, b: file2nestedYML, f: 'json', expected: resultJSON },
+  { a: file1nestedYML, b: file2nestedJSON, f: 'json', expected: resultJSON },
+])('Format $f', ({ a, b, f, expected }) => {
+  expect(gendiff(a, b, f)).toBe(expected);
 });
 
-test('2. Stylish, Nested YML and JSON files comparison', () => {
-  expect(gendiff(file1nestedJSON, file2nestedJSON)).toEqual(resultNested);
-  expect(gendiff(file1nestedYML, file2nestedYML)).toEqual(resultNested);
-  expect(gendiff(file1nestedYML, file2nestedJSON)).toEqual(resultNested);
-  expect(gendiff(file1nestedJSON, file2nestedYML)).toEqual(resultNested);
-});
-
-test('3. Plain, Nested YML and JSON files comparison', () => {
-  expect(gendiff(file1nestedJSON, file2nestedJSON, 'plain')).toEqual(resultPlain);
-  expect(gendiff(file1nestedYML, file2nestedYML, 'plain')).toEqual(resultPlain);
-  expect(gendiff(file1nestedYML, file2nestedJSON, 'plain')).toEqual(resultPlain);
-  expect(gendiff(file1nestedJSON, file2nestedYML, 'plain')).toEqual(resultPlain);
-});
-
-test('4. JSON, Nested YML and JSON files comparison', () => {
-  expect(gendiff(file1nestedJSON, file2nestedJSON, 'json')).toEqual(resultJSON);
-  expect(gendiff(file1nestedYML, file2nestedYML, 'json')).toEqual(resultJSON);
-  expect(gendiff(file1nestedYML, file2nestedJSON, 'json')).toEqual(resultJSON);
-  expect(gendiff(file1nestedJSON, file2nestedYML, 'json')).toEqual(resultJSON);
-});
-
-test('5. Test Error (Wrong extension)', () => {
+test('Test Error (Wrong extension)', () => {
   const file1TXT = getFixturesPath('resultFlat.txt');
   const file2TXT = getFixturesPath('resultNested.txt');
   expect(() => { gendiff(file1TXT, file2TXT, 'json'); }).toThrow('Extension txt is not supported');
 });
 
-test('6. Test Error (Wrong formatter)', () => {
+test('Test Error (Wrong formatter)', () => {
   expect(() => { gendiff(file1nestedJSON, file2nestedJSON, 'jso'); }).toThrow('Format jso is not supported');
+});
+
+const testNode = [{ type: 'newType' }];
+
+test('Test Error (Wrong type in formatters)', () => {
+  expect(() => { makePlain(testNode); }).toThrow('Type newType is not supported');
+  expect(() => { makeStylish(testNode); }).toThrow('Type newType is not supported');
 });

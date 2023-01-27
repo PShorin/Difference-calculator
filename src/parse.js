@@ -2,20 +2,23 @@ import fs from 'fs';
 import yaml from 'js-yaml';
 import path from 'node:path';
 
-const fileFormat = (file) => {
-  const format = path.extname(file);
+export const fileFormat = (file) => {
+  const format = path.extname(file).slice(1);
   return format;
 };
 
-export default (file) => {
-  const format = fileFormat(file).slice(1);
-  const fileContent = fs.readFileSync(file, 'utf8');
+export const fileContent = (file) => {
+  const content = fs.readFileSync(file, 'utf8');
+  return content;
+};
+
+export const parseFile = (content, format) => {
   switch (format) {
     case 'json':
-      return JSON.parse(fileContent);
+      return JSON.parse(content);
     case 'yml':
     case 'yaml':
-      return yaml.load(fileContent);
+      return yaml.load(content);
     default:
       throw new Error(`Extension ${format} is not supported`);
   }
