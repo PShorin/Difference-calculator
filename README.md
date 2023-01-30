@@ -44,7 +44,9 @@ In the stylelish format:
 The absence of a plus or minus indicates that the key is in both files, and its values are the same. In all other situations, the key value is either different, or the key is in only one file. In the example above, the timeout key is in both files, but has different values, proxy is only in file1, and verbose is only in file2.
 
 ### System requirements:
+```bash
 Node 14.x version at least
+```
 ### How to install
 ```bash
 #clone this repository on your machine with SSH key
@@ -63,6 +65,9 @@ $npm link
 
 #run utility
 $ gendiff <filepath1> <filepath2>
+
+#run help 
+$ gendiff -h
 ```
 
 ### Gendiff launch example:

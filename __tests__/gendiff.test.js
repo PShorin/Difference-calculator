@@ -12,54 +12,49 @@ const __dirname = dirname(__filename);
 const getFixturesPath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 const readFixture = (filepath) => fs.readFileSync(getFixturesPath(filepath), 'utf-8').trim();
 
-const resultNested = readFixture('resultNested.txt');
-const resultPlain = readFixture('resultPlain.txt');
-const resultJSON = readFixture('resultJSON.txt');
-const file1json = getFixturesPath('file1nested.json');
-const file2json = getFixturesPath('file2nested.json');
-const file1yml = getFixturesPath('file1nested.yml');
-const file2yml = getFixturesPath('file2nested.yml');
-
 test.each([
-  { a: file1json, b: file2json, expected: resultNested }, // case format not specified
+  { file1: 'file1.json', file2: 'file2.json', expected: 'resultStylish.txt' }, // case format not specified
   {
-    a: file1yml, b: file2yml, f: 'stylish', expected: resultNested,
+    file1: 'file1.yml', file2: 'file2.yml', format: 'stylish', expected: 'resultStylish.txt',
   },
   {
-    a: file1yml, b: file2json, f: 'stylish', expected: resultNested,
+    file1: 'file1.yml', file2: 'file2.json', format: 'stylish', expected: 'resultStylish.txt',
   },
   {
-    a: file1json, b: file2json, f: 'plain', expected: resultPlain,
+    file1: 'file1.json', file2: 'file2.json', format: 'plain', expected: 'resultPlain.txt',
   },
   {
-    a: file1yml, b: file2yml, f: 'plain', expected: resultPlain,
+    file1: 'file1.yml', file2: 'file2.yml', format: 'plain', expected: 'resultPlain.txt',
   },
   {
-    a: file1yml, b: file2json, f: 'plain', expected: resultPlain,
+    file1: 'file1.yml', file2: 'file2.json', format: 'plain', expected: 'resultPlain.txt',
   },
   {
-    a: file1json, b: file2json, f: 'json', expected: resultJSON,
+    file1: 'file1.json', file2: 'file2.json', format: 'json', expected: 'resultJSON.txt',
   },
   {
-    a: file1yml, b: file2yml, f: 'json', expected: resultJSON,
+    file1: 'file1.yml', file2: 'file2.yml', format: 'json', expected: 'resultJSON.txt',
   },
   {
-    a: file1yml, b: file2json, f: 'json', expected: resultJSON,
+    file1: 'file1.yml', file2: 'file2.json', format: 'json', expected: 'resultJSON.txt',
   },
-])('Format $f', ({
-  a, b, f, expected,
+])('Format $format', ({
+  file1, file2, format, expected,
 }) => {
-  expect(gendiff(a, b, f)).toBe(expected);
+  expect(gendiff(getFixturesPath(file1), getFixturesPath(file2), format))
+    .toBe(readFixture(expected));
 });
 
 test('Wrong extension', () => {
-  const file1TXT = getFixturesPath('resultFlat.txt');
-  const file2TXT = getFixturesPath('resultNested.txt');
+  const file1TXT = getFixturesPath('resultJSON.txt');
+  const file2TXT = getFixturesPath('resultPlain.txt');
   expect(() => { gendiff(file1TXT, file2TXT, 'json'); }).toThrow('Extension txt is not supported');
 });
 
 test('Wrong formatter', () => {
-  expect(() => { gendiff(file1json, file2json, 'jso'); }).toThrow('Format jso is not supported');
+  const file1 = getFixturesPath('file1.json');
+  const file2 = getFixturesPath('file2.json');
+  expect(() => { gendiff(file1, file2, 'jso'); }).toThrow('Format jso is not supported');
 });
 
 const testNode = [{ type: 'newType' }];

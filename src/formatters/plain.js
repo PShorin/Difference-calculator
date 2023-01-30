@@ -4,7 +4,7 @@ const makeString = (value) => {
   if (_.isObject(value)) {
     return '[complex value]';
   }
-  return typeof value === 'string' ? `'${value}'` : value;
+  return typeof value === 'string' ? `'${value}'` : String(value);
 };
 
 export default (nodes) => {
@@ -28,5 +28,5 @@ export default (nodes) => {
     }
   };
   const result = nodes.flatMap((node) => iter(node));
-  return `${result.join('\n')}`;
+  return result.join('\n');
 };
